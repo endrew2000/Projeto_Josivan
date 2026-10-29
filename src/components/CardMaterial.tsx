@@ -1,30 +1,13 @@
-interface Titulus (){
+interface Titulus {
     titulo: string
     disciplina: string
 }   
 
-function CardTitulos(props){
+function CardTitulos(props:Titulus){
     return (
-        <>
-        <p> {props.Titulus} </p>
-        <p> {props.disciplina} </p>
-        </>
-    )
-} export default CardTitulos
-
-// src/components/CardTitulos.jsx
-
-export function CardTitulos({ titulo, disciplina }) {
-    return (
-        // Trocamos o fragmento <> por uma <div> para podermos estilizar a caixa do cartão
-        <div className=""> 
-            
-            {/* Aplique classes para aumentar a letra e deixar em negrito */}
-            <h3 className=""> {titulo} </h3>
-            
-            {/* Aplique classes para diminuir a letra e deixar cinza */}
-            <p className=""> {disciplina} </p>
-            
+        <div className="bg-white p-4 rounded-lg shadow-md border border-gray-200" >
+        <p className="text-xl font-bold text-gray-800"> {props.titulo} </p>
+        <p className="text-sm text-gray-500 mt-1"> {props.disciplina} </p>
         </div>
     )
-}
+} export default CardTitulos
