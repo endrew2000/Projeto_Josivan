@@ -14,6 +14,7 @@ export function Login() {
 
   // Campos do formulário
   const [nome, setNome] = useState('');
+  const [email, setEmail] = useState('');
   const [cargo, setCargo] = useState('aluno');
   const [matricula, setMatricula] = useState('');
   const [senha, setSenha] = useState('');
@@ -32,13 +33,19 @@ export function Login() {
     try {
       if (modoCadastro) {
         // --- FLUXO DE CADASTRO ---
-        const resposta = await fetch(`${URL_BASE_API}/auth/cadastro`, {
+        const resposta = await fetch(`${URL_BASE_API}/auth/register`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ nome, matricula, senha, cargo }),
+          body: JSON.stringify({ nome, email, matricula, senha, cargo }),
         });
 
-        const dados = await resposta.json();
+        let dados;
+        try {
+          dados = await resposta.json();
+        } catch {
+          setMensagemErro(`O servidor retornou uma resposta inválida (HTTP ${resposta.status}). Verifique o endereço da API.`);
+          return;
+        }
 
         if (!resposta.ok) {
           setMensagemErro(dados.erro || 'Não foi possível realizar o cadastro.');
@@ -127,6 +134,21 @@ export function Login() {
                     value={nome}
                     onChange={(e) => setNome(e.target.value)}
                     placeholder="Seu nome completo"
+                    className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1E3A8A] transition-all bg-white"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-1" htmlFor="email-cadastro">
+                    E-mail
+                  </label>
+                  <input
+                    id="email-cadastro"
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="seuemail@exemplo.com"
                     className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1E3A8A] transition-all bg-white"
                     required
                   />
